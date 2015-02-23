@@ -45,7 +45,7 @@ class R1soft():
             if self.repo in file.read():
                 print('The CDP repo has already been added')
             else:
-                file.wright(repo)
+                file.write(repo)
             file.close()
             return
 
@@ -61,7 +61,7 @@ class R1soft():
             if self.repo in file.read():
                 print('The CDP repo has already been added!')
             else:
-                file.wright(repo)
+                file.write(self.repo)
             file.close()
         return
 
@@ -77,8 +77,8 @@ class R1soft():
 
         if 'redhat' in self.osDistro or 'centos' in self.osDistro:
             if '7' in self.osVersion[0]:
-                url = ''.format('http://repo.r1soft.com/modules/Centos_7_x64/hcpdriver-cki-', 
-                    self.kernelRelease, '.ko')
+                url = '{}{}{}'.format('http://repo.r1soft.com/modules/Centos_7_x64/hcpdriver-cki-', 
+                    kernelRelease, '.ko')
                 try:
                     urllib.urlretrieve(url, '/lib/modules/r1soft/hcpdriver.ko')
                 except IOError:
