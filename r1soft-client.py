@@ -15,18 +15,18 @@ class R1soft():
     repo = ''
 
     def setOSVerables(self):
-        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
-            this.repoFile = 'r1soft.repo'
-            this.repoDir = '/etc/yum.repos.d/'
-            this.repo = '{0}{1}{2}{3}{4}'.format('[r1soft]\n', 
+        if 'redhat' in self.osDistro or 'centos' in self.osDistro:
+            self.repoFile = 'r1soft.repo'
+            self.repoDir = '/etc/yum.repos.d/'
+            self.repo = '{0}{1}{2}{3}{4}'.format('[r1soft]\n', 
                 'name=R1Soft Repository Server\n', 
                 'baseurl=http://repo.r1soft.com/yum/stable/\$basearch\n',
                 'enabled=1\n',
                 'gpgcheck=0')
-        elif 'debian' in this.osDistro or 'ubuntu' in this.osDistro:
-            this.repoFile = 'sources.list'
-            this.repoDir = '/etc/apt/'
-            this.repo = 'deb http://repo.r1soft.com/apt stable main'
+        elif 'debian' in self.osDistro or 'ubuntu' in self.osDistro:
+            self.repoFile = 'sources.list'
+            self.repoDir = '/etc/apt/'
+            self.repo = 'deb http://repo.r1soft.com/apt stable main'
         else:
             print('Your system is not supported')
             sys.exit()
@@ -34,16 +34,16 @@ class R1soft():
 
     def addRepo(self):
         # Adding repo for RedHat
-        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
-            # If the file does not excites this will create it
-            if not os.path.isfile(this.repoDir + this.repoFile):
-                os.makedirs(this.repoDir, 0755)
-                file = open(this.repoDir + this.repoFile, 'w')
+        if 'redhat' in self.osDistro or 'centos' in self.osDistro:
+            # If the file does not excites self will create it
+            if not os.path.isfile(self.repoDir + self.repoFile):
+                os.makedirs(self.repoDir, 0755)
+                file = open(self.repoDir + self.repoFile, 'w')
                 file.close()
 
-            file = open(this.repoDir + this.repoFile, 'a+')
+            file = open(self.repoDir + self.repoFile, 'a+')
 
-            if this.repo in file.read():
+            if self.repo in file.read():
                 print('The CDP repo has already been added')
             else:
                 file.wright(repo)
@@ -52,15 +52,15 @@ class R1soft():
 
         # Adding repo for Debian
         elif 'debian' in osDistro or 'centos' in osDistro:
-            # If the file does not excites this will create it
-            if not os.path.isfile(this.repoDir + this.repoFile):
-                os.makedirs(this.repoDir, 0755)
-                file = open(this.repoDir + this.repoFile, 'w')
+            # If the file does not excites self will create it
+            if not os.path.isfile(self.repoDir + self.repoFile):
+                os.makedirs(self.repoDir, 0755)
+                file = open(self.repoDir + self.repoFile, 'w')
                 file.close()
 
-            file = open(this.repoDir + this.repoFile, 'a+')
+            file = open(self.repoDir + self.repoFile, 'a+')
 
-            if this.repo in file.read():
+            if self.repo in file.read():
                 print('The CDP repo has already been added!')
             else:
                 file.wright(repo)
@@ -68,19 +68,19 @@ class R1soft():
         return
 
     def installPackage(self):
-        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
+        if 'redhat' in self.osDistro or 'centos' in self.osDistro:
             subprocess.call(['yum', 'install', 'r1soft-cdp-enterprise-agent', '-y'])
-        elif 'debian' in this.osDistro or 'centos' in this.osDistro:
+        elif 'debian' in self.osDistro or 'centos' in self.osDistro:
             subprocess.call(['apt-get', 'install', 'r1soft-cdp-enterprise-agent', '-y'])
         return
 
     def getHeaders(self):
         kernelRelease = platform.release()
 
-        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
-            if '7' in this.osVersion[0]:
+        if 'redhat' in self.osDistro or 'centos' in self.osDistro:
+            if '7' in self.osVersion[0]:
                 url = ''.format('http://repo.r1soft.com/modules/Centos_7_x64/hcpdriver-cki-', 
-                    this.kernelRelease, '.ko')
+                    self.kernelRelease, '.ko')
                 try:
                     urllib.urlretrieve(url, '/lib/modules/r1soft/hcpdriver.ko')
                 except IOError:
