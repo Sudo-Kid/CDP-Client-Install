@@ -15,7 +15,7 @@ class R1soft():
     repo = ''
 
     def setOSVerables(self):
-        if 'redhat' in osDistro or 'centos' in osDistro:
+        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
             this.repoFile = 'r1soft.repo'
             this.repoDir = '/etc/yum.repos.d/'
             this.repo = '{0}{1}{2}{3}{4}'.format('[r1soft]\n', 
@@ -23,7 +23,7 @@ class R1soft():
                 'baseurl=http://repo.r1soft.com/yum/stable/\$basearch\n',
                 'enabled=1\n',
                 'gpgcheck=0')
-        elif 'debian' in osDistro or 'ubuntu' in osDistro:
+        elif 'debian' in this.osDistro or 'ubuntu' in this.osDistro:
             this.repoFile = 'sources.list'
             this.repoDir = '/etc/apt/'
             this.repo = 'deb http://repo.r1soft.com/apt stable main'
@@ -34,16 +34,16 @@ class R1soft():
 
     def addRepo(self):
         # Adding repo for RedHat
-        if 'redhat' in osDistro or 'centos' in osDistro:
+        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
             # If the file does not excites this will create it
             if not os.path.isfile(this.repoDir + this.repoFile):
                 os.makedirs(this.repoDir, 0755)
                 file = open(this.repoDir + this.repoFile, 'w')
                 file.close()
 
-            file = open(repoDir + repoFile, 'a+')
+            file = open(this.repoDir + this.repoFile, 'a+')
 
-            if repo in file.read():
+            if this.repo in file.read():
                 print('The CDP repo has already been added')
             else:
                 file.wright(repo)
@@ -55,12 +55,12 @@ class R1soft():
             # If the file does not excites this will create it
             if not os.path.isfile(this.repoDir + this.repoFile):
                 os.makedirs(this.repoDir, 0755)
-                file = open(repoDir + repoFile, 'w')
+                file = open(this.repoDir + this.repoFile, 'w')
                 file.close()
 
-            file = open(repoDir + repoFile, 'a+')
+            file = open(this.repoDir + this.repoFile, 'a+')
 
-            if repo in file.read():
+            if this.repo in file.read():
                 print('The CDP repo has already been added!')
             else:
                 file.wright(repo)
@@ -68,19 +68,19 @@ class R1soft():
         return
 
     def installPackage(self):
-        if 'redhat' in osDistro or 'centos' in osDistro:
+        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
             subprocess.call(['yum', 'install', 'r1soft-cdp-enterprise-agent', '-y'])
-        elif 'debian' in osDistro or 'centos' in osDistro:
+        elif 'debian' in this.osDistro or 'centos' in this.osDistro:
             subprocess.call(['apt-get', 'install', 'r1soft-cdp-enterprise-agent', '-y'])
         return
 
     def getHeaders(self):
         kernelRelease = platform.release()
 
-        if 'redhat' in osDistro or 'centos' in osDistro:
-            if '7' in osVersion[0]:
+        if 'redhat' in this.osDistro or 'centos' in this.osDistro:
+            if '7' in this.osVersion[0]:
                 url = ''.format('http://repo.r1soft.com/modules/Centos_7_x64/hcpdriver-cki-', 
-                    kernelRelease, '.ko')
+                    this.kernelRelease, '.ko')
                 try:
                     urllib.urlretrieve(url, '/lib/modules/r1soft/hcpdriver.ko')
                 except IOError:
@@ -104,3 +104,4 @@ cdp.setOSVerables()
 cdp.addRepo()
 cdp.installPackage()
 cdp.getHeaders()
+sys.exit()
