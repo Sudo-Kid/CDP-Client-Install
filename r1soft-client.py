@@ -54,7 +54,6 @@ class R1soft():
         elif 'debian' in osDistro or 'centos' in osDistro:
             # If the file does not excites self will create it
             if not os.path.isfile(self.repoDir + self.repoFile):
-                os.makedirs(self.repoDir, 0755)
                 file = open(self.repoDir + self.repoFile, 'w')
                 file.close()
 
